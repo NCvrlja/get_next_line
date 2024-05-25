@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nacvrlja <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nacvrlja <nacvrlja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 22:10:01 by nacvrlja          #+#    #+#             */
-/*   Updated: 2024/05/23 11:44:49 by nacvrlja         ###   ########.fr       */
+/*   Updated: 2024/05/25 22:43:48 by nacvrlja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ size_t	ft_strlen(char *s)
 
 char	*ft_strjoin(char *s1, char *s2)
 {
-	int		i;
-	int		j;
-	char	*joined;
+	size_t		i;
+	size_t		j;
+	char		*joined;
 
 	if (!s1 || !s2)
 		return (NULL);
@@ -49,52 +49,15 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (joined);
 }
 
-void	ft_bzero(void *s, size_t n)
+char	*ft_strchr(const char *s, int c)
 {
-	char	*str;
-	size_t	i;
-
-	i = 0;
-	str = (char *)s;
-	while (i < n)
+	while (*s)
 	{
-		str[i] = 0;
-		i++;
-	}
-}
-
-char	ft_strchr(const char *s, char c)
-{
-	unsigned char	ch;
-
-	ch = (unsigned char)c;
-	while (*s || *s == ch)
-	{
-		if (*s == ch)
+		if (*s == (unsigned char)c)
 			return ((char *)s);
 		s++;
 	}
-	return (NULL);
-}
-
-void	*ft_calloc(size_t nmemb, size_t size)
-{
-	size_t	total;
-	void	*ptr;
-	size_t	i;
-
-	if (size != 0 && nmemb > SIZE_MAX / size)
-		return (NULL);
-	total = nmemb * size;
-	ptr = malloc(total);
-	if (ptr != NULL)
-	{
-		i = 0;
-		while (i < total)
-		{
-			(unsigned char)ptr[i] = 0;
-			i++;
-		}
-	}
-	return (ptr);
+	if (c == '\0')
+		return ((char *)s);
+	return (0);
 }

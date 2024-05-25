@@ -3,18 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nacvrlja <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nacvrlja <nacvrlja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:30:43 by nacvrlja          #+#    #+#             */
-/*   Updated: 2024/05/23 11:44:58 by nacvrlja         ###   ########.fr       */
+/*   Updated: 2024/05/25 23:12:24 by nacvrlja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-# define BUFFER_SIZE 150
+# define BUFFER_SIZE 32
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <stdint.h>
+#include <string.h>
 
 char	*get_next_line(int fd);
 char	*ft_strjoin(char *s1, char *s2);
+size_t	ft_strlen(char *s);
+char	*ft_strchr(const char *s, int c);
+char	*ft_reset_buf(char *buffer);
+char	*ft_line(char *buffer);
+char	*ft_read(int fd, char *read_buffer);
+char	*ft_free(char *buffer, char *read_buffer);
 
 #endif 

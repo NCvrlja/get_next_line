@@ -3,20 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nacvrlja <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nacvrlja <nacvrlja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:31:51 by nacvrlja          #+#    #+#             */
-/*   Updated: 2024/05/23 18:12:26 by nacvrlja         ###   ########.fr       */
+/*   Updated: 2024/05/25 23:25:04 by nacvrlja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <stdint.h>
-#include <string.h>
 
 // free the read_buffer
 char	*ft_free(char *buffer, char *read_buffer)
@@ -24,32 +18,56 @@ char	*ft_free(char *buffer, char *read_buffer)
 	char	*tmp;
 
 	tmp = ft_strjoin(buffer, read_buffer);
-	free(read_buffer);
+	free(buffer);
 	return (tmp);
 }
 
 // read the file
-char	*ft_read(int fd, char *read_buffer)
+char	*ft_read(int fd, char *buffer)
 {
-	int	bytes_read;
+	ssize_t	bytes_read;
+	char	*read_buffer;
 
-	read_buffer = malloc(sizeof(char) * BUFFER_SIZE + 1;
+	if (!buffer)
+	{
+		buffer = malloc(1);
+		if (!buffer)
+			return (NULL);
+		buffer[0] = '\0';
+	}
+	read_buffer = malloc(sizeof(char) * BUFFER_SIZE + 1);
 	bytes_read = read(fd, read_buffer, BUFFER_SIZE);
+	if (bytes_read < 0)
+	{
+		free(buffer);
+		return (NULL);
+	}
 	read_buffer[bytes_read] = '\0';
+	buffer = ft_free(buffer, read_buffer);
+	return (buffer);
 }
 
 // put the line 
 char	*ft_line(char *buffer)
 {
-	int	i;
+	size_t	i;
 	char	*line;
 
 	i = 0;
-	while (buffer[i] != '\n')
+	if (!buffer[i])
+		return (NULL);
+	while (buffer[i] && buffer[i] != '\n')
 		i++;
-	line = malloc(sizeof(char) * i + 1);
+	line = malloc(i + 2);
+	if (!line)
+		return (NULL);
 	i = 0;
-	while (buffer[i] != '\n')
+	while (buffer[i] && buffer[i] != '\n')
+	{
+		line[i] = buffer[i];
+		i++;
+	}
+	if (buffer[i] && buffer[i] == '\n')
 	{
 		line[i] = buffer[i];
 		i++;
@@ -58,11 +76,11 @@ char	*ft_line(char *buffer)
 }
 
 // reset the buffer to start after the \n
-char	*ft_reset(char *buffer)
+char	*ft_reset_buf(char *buffer)
 {
-	int	i;
-	int	j;
-	char	*new_line
+	size_t	i;
+	size_t	j;
+	char	*new_buffer;
 
 	i = 0;
 	j = 0;
@@ -73,23 +91,47 @@ char	*ft_reset(char *buffer)
 		free(buffer);
 		return (NULL);
 	}
-	new_line = malloc(sizeof(char) * ft_strlen(buffer) - i + 1);
+	new_buffer = malloc(sizeof(char) * (ft_strlen(buffer) - i + 1));
+	if (!new_buffer)
+	{
+		free(buffer);
+		return (NULL);
+	}
 	i++;
 	while (buffer[i])
-	{
-		new_line[j++] = buffer[i++];
-		free(buffer);
-	}
-	return (new_line);
+		new_buffer[j++] = buffer[i++];
+	free(buffer);
+	return (new_buffer);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	*buffer;
+	char		*line;
 
-
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+		return (NULL);
+	if (!buffer)
+	{
+		buffer = malloc(1);
+		if (!buffer)
+			return (NULL);
+		buffer[0] = '\0';
+	}
+	buffer = ft_read(fd, buffer);
+	if (!buffer)
+		return (NULL);
+	if (buffer[0] == '\0')
+	{
+		free(buffer);
+		buffer = NULL;
+		return (NULL);
+	}
+	line = ft_line(buffer);
+	buffer = ft_reset_buf(buffer);
+	return (line);
 }
-
+/*
 char	*get_next_line(int fd)
 {
 	static char	*buffer;
@@ -118,7 +160,6 @@ char	*get_next_line(int fd)
 			return NULL;
 		}
 	}
-	strncpy(line, buffer, length);
 	line[length] = '\0';
 	// is there a new line in static buffer
 	// if yes => break out of loop
@@ -127,10 +168,27 @@ char	*get_next_line(int fd)
 	// reset the buffer, so it will contain everything after the first new line
 	// 
 	return (line);
-}
-
-int	main(void)
+} */
+#include <fcntl.h>
+int main(void)
 {
-	char *line = get_next_line(open("text.txt", O_RDONLY));
-	close (open("text.txt", O_RDONLY));
+    int fd = open("text.txt", O_RDONLY);
+    if (fd < 0)
+    {
+        perror("Failed to open file");
+        return (1);
+    }
+
+    char *line;
+	/*line = get_next_line(0);
+	printf("%s", line);
+	free(line);
+	*/
+    while ((line = get_next_line(fd)) != NULL)
+    {
+        printf("%s", line);
+        free(line); // Free the allocated memory for the line
+    }
+    close(fd);
+    return (0);
 }
