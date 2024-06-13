@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxnotebook <maxnotebook@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mbonengl <mbonengl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 22:10:01 by nacvrlja          #+#    #+#             */
-/*   Updated: 2024/06/12 09:56:01 by maxnotebook      ###   ########.fr       */
+/*   Updated: 2024/06/13 18:45:21 by mbonengl         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "get_next_line.h"
 
@@ -17,6 +17,8 @@ size_t	ft_strlen(char *s)
 	size_t	i;
 
 	i = 0;
+	if (!s)
+		return (0);
 	while (s[i])
 		i++;
 	return (i);
@@ -31,7 +33,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (!s1 || !s2)
 		return (NULL);
 	joined = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (joined == NULL)
+	if (!joined)
 		return (NULL);
 	i = 0;
 	j = 0;
