@@ -1,18 +1,18 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nacvrlja <nacvrlja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxnotebook <maxnotebook@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:30:43 by nacvrlja          #+#    #+#             */
-/*   Updated: 2024/05/25 23:12:24 by nacvrlja         ###   ########.fr       */
+/*   Updated: 2024/06/12 10:07:36 by maxnotebook      ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-# define BUFFER_SIZE 32
+# define BUFFER_SIZE 5
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -28,5 +28,6 @@ char	*ft_reset_buf(char *buffer);
 char	*ft_line(char *buffer);
 char	*ft_read(int fd, char *read_buffer);
 char	*ft_free(char *buffer, char *read_buffer);
+int	bufferhasnonewline(char *buffer);
 
 #endif 

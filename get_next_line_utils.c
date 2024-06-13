@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nacvrlja <nacvrlja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxnotebook <maxnotebook@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 22:10:01 by nacvrlja          #+#    #+#             */
-/*   Updated: 2024/05/25 22:43:48 by nacvrlja         ###   ########.fr       */
+/*   Updated: 2024/06/12 09:56:01 by maxnotebook      ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "get_next_line.h"
 
@@ -60,4 +60,17 @@ char	*ft_strchr(const char *s, int c)
 	if (c == '\0')
 		return ((char *)s);
 	return (0);
+}
+
+int	bufferhasnonewline(char *buffer)
+{
+	int	i;
+
+	i = 0;
+	while (buffer[i] != '\n' && buffer[i])
+		i++;
+	if (!buffer[i])
+		return (1);
+	else
+		return(0);
 }

@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nacvrlja <nacvrlja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxnotebook <maxnotebook@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:31:51 by nacvrlja          #+#    #+#             */
-/*   Updated: 2024/05/25 23:25:04 by nacvrlja         ###   ########.fr       */
+/*   Updated: 2024/06/12 12:06:26 by maxnotebook      ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "get_next_line.h"
 
@@ -27,23 +27,28 @@ char	*ft_read(int fd, char *buffer)
 {
 	ssize_t	bytes_read;
 	char	*read_buffer;
+	char	*temp;
 
-	if (!buffer)
-	{
-		buffer = malloc(1);
-		if (!buffer)
-			return (NULL);
-		buffer[0] = '\0';
-	}
 	read_buffer = malloc(sizeof(char) * BUFFER_SIZE + 1);
-	bytes_read = read(fd, read_buffer, BUFFER_SIZE);
-	if (bytes_read < 0)
-	{
-		free(buffer);
+	if (!read_buffer)
 		return (NULL);
+	while (bufferhasnonewline(buffer))
+	{
+		bytes_read = read(fd, read_buffer, BUFFER_SIZE);
+		if (bytes_read < 0)
+		{
+			free(read_buffer);
+			free(buffer);
+			return (NULL);
+		}
+		if (bytes_read == 0)
+			break ;
+		read_buffer[bytes_read] = '\0';
+		temp = buffer;
+		buffer = ft_strjoin(buffer, read_buffer);
+		free(temp);
 	}
-	read_buffer[bytes_read] = '\0';
-	buffer = ft_free(buffer, read_buffer);
+	free(read_buffer);
 	return (buffer);
 }
 
@@ -109,7 +114,7 @@ char	*get_next_line(int fd)
 	static char	*buffer;
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (!buffer)
 	{
@@ -184,6 +189,9 @@ int main(void)
 	printf("%s", line);
 	free(line);
 	*/
+	// line = get_next_line(fd);
+	// printf("%s", line);
+	// free(line);
     while ((line = get_next_line(fd)) != NULL)
     {
         printf("%s", line);
