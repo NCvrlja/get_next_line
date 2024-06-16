@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nacvrlja <nacvrlja@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/16 13:16:48 by nacvrlja          #+#    #+#             */
+/*   Updated: 2024/06/16 13:50:56 by nacvrlja         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "get_next_line.h"
 
@@ -46,7 +57,7 @@ char	*ft_line(char *buffer)
 		line[i] = buffer[i];
 		i++;
 	}
-	if(buffer[i] == '\n')
+	if (buffer[i] == '\n')
 	{
 		line[i] = buffer[i];
 		i++;
@@ -64,18 +75,18 @@ char	*ft_read(int fd, char *buffer)
 	read_buffer = malloc(BUFFER_SIZE + 1);
 	if (!read_buffer)
 		return (free(buffer), NULL);
-	while (!ft_strchr(buffer, '\n'))
+	while (1)
 	{
 		bytes_read = read(fd, read_buffer, BUFFER_SIZE);
 		if (bytes_read < 0)
 			return (free(read_buffer), free(buffer), NULL);
 		read_buffer[bytes_read] = '\0';
-		temp = ft_strjoin(buffer, read_buffer);
-		if (!temp)
-			return (free(read_buffer), free(buffer), NULL);
-		free(buffer);
-		buffer = temp;
-		if (bytes_read < BUFFER_SIZE)
+		temp = buffer;
+		buffer = ft_strjoin(buffer, read_buffer);
+		if (!buffer)
+			return (free(read_buffer), free(temp), NULL);
+		free(temp);
+		if (bytes_read < BUFFER_SIZE || ft_strchr(buffer, '\n'))
 			break ;
 	}
 	free(read_buffer);
@@ -99,18 +110,21 @@ char	*get_next_line(int fd)
 	buffer = ft_read(fd, buffer);
 	if (!buffer)
 		return (NULL);
+	if (!*buffer)
+		return (free(buffer), NULL);
 	line = ft_line(buffer);
 	if (!line || !*line)
 		return (free(buffer), NULL);
 	buffer = ft_reset_buf(buffer);
-	if (!buffer)
-		return (free(line), NULL);
+	// if (!buffer)
+	// 	return (NULL);
 	return (line);
 }
+/*
 #include <fcntl.h>
 int main(void)
 {
-    int fd = open("text.txt", O_RDONLY);
+    int fd = open("new.txt", O_RDONLY);
     if (fd < 0)
     {
         perror("Failed to open file");
@@ -118,10 +132,10 @@ int main(void)
     }
 
     char *line;
-	/*line = get_next_line(0);
-	printf("%s", line);
-	free(line);
-	*/
+	//line = get_next_line(0);
+	//printf("%s", line);
+	//free(line);
+	
 	// line = get_next_line(fd);
 	// printf("%s", line);
 	// free(line);
@@ -133,3 +147,4 @@ int main(void)
     close(fd);
     return (0);
 }
+*/

@@ -1,10 +1,2 @@
-import random
-import string
-
-def generate_sample_text(length):
-	sample_text = ''.join(random.choices(string.ascii_letters + string.digits, k=length))
-	return sample_text
-
-# Example usage
-sample_text = generate_sample_text(10)
-print(sample_text)
+Helloooooou
+Hi

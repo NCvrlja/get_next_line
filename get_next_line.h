@@ -3,22 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbonengl <mbonengl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nacvrlja <nacvrlja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:30:43 by nacvrlja          #+#    #+#             */
-/*   Updated: 2024/06/13 18:50:04 by mbonengl         ###   ########.fr       */
+/*   Updated: 2024/06/16 13:17:23 by nacvrlja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-# define BUFFER_SIZE 5
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 5
+# endif
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <stdint.h>
-#include <string.h>
+# include <stdlib.h>
+# include <stdio.h>
+# include <unistd.h>
+# include <stdint.h>
+# include <string.h>
 
 char	*get_next_line(int fd);
 char	*ft_strjoin(char *s1, char *s2);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbonengl <mbonengl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nacvrlja <nacvrlja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 22:10:01 by nacvrlja          #+#    #+#             */
-/*   Updated: 2024/06/13 18:45:21 by mbonengl         ###   ########.fr       */
+/*   Updated: 2024/06/16 14:00:53 by nacvrlja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,5 @@ int	bufferhasnonewline(char *buffer)
 	if (!buffer[i])
 		return (1);
 	else
-		return(0);
+		return (0);
 }
